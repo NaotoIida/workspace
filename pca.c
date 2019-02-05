@@ -11,18 +11,24 @@ int Jacobi(int, int, double, double **, double **, double **, double **, double 
 
 int main()
 {
-	int i1, i2, n, p, sw,i3,i4;
+	double **x,*r, **a;
+	int i1, i2, n, p, sw,i3;
 	FILE *inpf;
 	char str[3168][15]; 
-	double r[200];
-	double x[200][3168];
-	double a[200][200];
-	int chr;
 
 /*original code 	scanf("%d %d", &p, &n);   // 変数の数とデータの数*/
 /*Subsutitute dimention and numbers of words to variable*/
 	p = 200;//dimention
 	n = 3168;//numbers of words
+
+	r = new double [p];
+	x = new double * [p];
+	a = new double * [p];
+	for (i1 = 0; i1 < p; i1++) {
+		x[i1]  = new double [n];
+		a[i1]  = new double [p];
+	}
+
 
 /*Open inputfile stream*/
 	inpf = fopen("Vectordate1.cvd","r");
@@ -32,24 +38,15 @@ int main()
 	}
 
 
-//	for (i1 = 0; i1 < n; i1++) {   // データ
-		printf("line 35!");
-		while((chr=fgetc(inpf) != ',')){
-			putchar(chr);
+	for (i1 = 0; i1 < n; i1++) {   // データ
+		while((str[i1][i3]=fgetc(inpf)) != ','){
+		printf("%c",str[i1][i3++]);
 		}
 		for(i2=0;i2<p;i2++){
 			fscanf(inpf,"%lf,",&x[i2][i1]);
 		}
-		for (i2 = 0; i2 < p; i2++){
-			printf("%lf,", x[i2][i1]);
-		}
-//	}		
+	}		
 
-fclose(inpf);
-return 0;
-}
-	
-	/*
 
 	sw = principal(p, n, x, r, a, 1.0e-10, 200);
 
@@ -88,7 +85,6 @@ return 0;
 /*      return : =0 : 正常         */
 /*               =1 : エラー       */
 /***********************************/
-	/*
 int principal(int p, int n, double **x, double *r, double **a, double eps, int ct)
 {
 	double **A1, **A2, **C, mean, **X1, **X2, s2;
@@ -151,11 +147,6 @@ int principal(int p, int n, double **x, double *r, double **a, double eps, int c
 		delete [] X1[i1];
 		delete [] X2[i1];
 	}
-		delete [] A1[i1];
-		delete [] A2[i1];
-		delete [] X1[i1];
-		delete [] X2[i1];
-	}
 	delete [] C;
 	delete [] A1;
 	delete [] A2;
@@ -176,7 +167,7 @@ int principal(int p, int n, double **x, double *r, double **a, double eps, int c
 /*      return : =0 : 正常                                   */
 /*               =1 : 収束せず                               */
 /*      coded by Y.Suganuma                                  */
-/*************************************************************
+/*************************************************************/
 #include <math.h>
 
 int Jacobi(int n, int ct, double eps, double **A, double **A1, double **A2,
@@ -280,4 +271,3 @@ int Jacobi(int n, int ct, double eps, double **A, double **A1, double **A2,
 
 	return ind;
 }
-*/
